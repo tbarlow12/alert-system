@@ -1,4 +1,4 @@
-import { Logger } from "../../interfaces/logger";
+import { Logger } from "../../models";
 import { Logger as AzFuncLogger, Context } from "@azure/functions"
 
 export class AzureFunctionsLogger implements Logger {

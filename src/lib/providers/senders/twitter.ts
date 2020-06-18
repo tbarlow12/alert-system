@@ -1,6 +1,5 @@
-import { Alert } from "../../interfaces/alert";
+import { Alert, Member } from "../../models";
 import { BaseSender } from "./baseSender";
-import { Member } from "../../interfaces/member";
 
 export class TwitterSender extends BaseSender {
   

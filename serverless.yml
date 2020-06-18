@@ -67,24 +67,13 @@ custom:
     includeModules: true
 
 functions:
-  hello:
-    handler: src/handlers/hello.sayHello
+  createAlert:
+    handler: src/handlers/createAlert
     events:
-      - http: true
-        x-azure-settings:
-          methods:
-            - GET
-          authLevel: anonymous # can also be `function` or `admin`
-
-  goodbye:
-    handler: src/handlers/goodbye.sayGoodbye
-    events:
-      - http: true
-        x-azure-settings:
-          methods:
-            - GET
-          authLevel: anonymous
-  
+    - http: true
+      methods:
+        - POST
+      authLevel: anonymous # can also be `function` or `admin`  
   sendTwitterAlert:
     handler: src/handlers/sendAlert
     events:
@@ -93,7 +82,7 @@ functions:
   sendFacebookAlert:
     handler: src/handlers/sendAlert
     events:
-    - queue: twitter-alerts
+    - queue: facebook-alerts
       name: alert
   sendEmailAlert:
     handler: src/handlers/sendAlert

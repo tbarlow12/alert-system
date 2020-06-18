@@ -1,29 +1,32 @@
-import { AzureFunction, Context } from '@azure/functions';
-import { Logger } from '../interfaces/logger';
-import { AzureFunctionsLogger } from '../providers/loggers/azureFunctions';
-import { CompoundLogger } from '../providers/loggers/compound';
-import { ConsoleLogger } from '../providers/loggers/console';
-import { Factory } from './factory';
-import { Sender } from '../interfaces/sender';
-import { constants } from '../utils/constants';
-import { TwitterSender } from '../providers/senders/twitter';
-import { EmailSender } from '../providers/senders/email';
-import { FacebookSender } from '../providers/senders/facebook';
-import { SmsSender } from '../providers/senders/sms';
+import { AzureFunction, Context } from "@azure/functions";
+import { IocContainer, Sender, Logger } from "../models";
+import { AzureFunctionsLogger, CompoundLogger, ConsoleLogger } from "../providers/loggers";
+import { EmailSender, FacebookSender, SmsSender, TwitterSender } from "../providers/senders";
+import { Factory } from "./factory";
+import { constants } from "../utils";
 
 export class HandlerFactory {
 
-  public static create<T>(handler: (context: Context, trigger: T, logger: Logger, sender: Sender) => Promise<void>): AzureFunction {
+  public static create<T>(handler: (context: Context, trigger: T, container: IocContainer) => Promise<void>): AzureFunction {
     return async (context: Context, trigger: T) => {
-      const logger = this.createCompoundLogger(context);
+      const container = this.createIocContainer(context);
+      const { logger } = container;
       logger.info(`Executing function ${context.executionContext.functionName}`);
-      const senderFactory = this.initializeSenderFactory(logger);
-      let sender: Sender = senderFactory.get(context.executionContext.functionName);
       try {
-        await handler(context, trigger, logger, sender);
+        await handler(context, trigger, container);
       } catch(err) {
         logger.error(`Caught global error in function ${context.executionContext.functionName}: ${err.message}`);
       }
+    }
+  }
+
+  private static createIocContainer(context: Context): IocContainer {
+    const logger = this.createCompoundLogger(context);
+    const { functionName } = context.executionContext;
+    const senderFactory = this.initializeSenderFactory(logger);
+    return {
+      logger,
+      sender: (senderFactory.has(functionName)) ? senderFactory.get(functionName) : undefined,
     }
   }
 

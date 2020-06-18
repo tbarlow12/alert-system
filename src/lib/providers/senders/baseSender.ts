@@ -1,12 +1,8 @@
-import { Sender } from "../../interfaces/sender";
-import { Alert } from "../../interfaces/alert";
-import { Member } from "../../interfaces/member"
-import { MemberGroup } from "../../interfaces/memberGroup";
-import { Logger } from "../../interfaces/logger";
+import { Sender, Alert, MemberGroup, Member, Logger } from "../../models";
 
 export abstract class BaseSender implements Sender {
 
-  private logger: Logger;
+  protected logger: Logger;
 
   constructor(logger: Logger) {
     this.logger = logger;
@@ -28,6 +24,6 @@ export abstract class BaseSender implements Sender {
 
   protected abstract formatMessage(alert: Alert): string;
   protected abstract sendMessage(message: string, target: string): Promise<void>;
-  protected abstract sendGroupMessage(message: string, targets: string[]): Promise<void>;
+  protected abstract sendGroupMessage(message: string, targets: string[]): Promise<void|void[]>;
   protected abstract getTarget(member: Member): string;
 }

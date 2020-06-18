@@ -1,4 +1,3 @@
-
 export class Factory<T> {
   
   private providers: { [key: string]: T }
@@ -9,6 +8,10 @@ export class Factory<T> {
   
   public register(key: string, provider: T) {
     this.providers[key] = provider;
+  }
+
+  public has(key: string): boolean {
+    return !!this.providers[key];
   }
 
   public get(key: string): T {

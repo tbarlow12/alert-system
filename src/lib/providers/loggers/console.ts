@@ -1,4 +1,4 @@
-import { Logger } from "../../interfaces/logger";
+import { Logger } from "../../models";
 
 export class ConsoleLogger implements Logger {
   public debug(message: string) {

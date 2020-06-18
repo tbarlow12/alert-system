@@ -14,6 +14,7 @@ export enum AlertUrgency {
 }
 
 export interface Alert {
+  from: Member;
   date: Date;
   message: string;
   type: AlertType;
