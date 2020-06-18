@@ -2,12 +2,12 @@ import { Alert } from "../../interfaces/alert";
 import { BaseSender } from "./baseSender";
 import { Member } from "../../interfaces/member";
 
-export class FacebookSender extends BaseSender {
+export class SmsSender extends BaseSender {
   
   protected getTarget(member: Member): string {
-    return member.facebook;
+    return member.phone;
   }
-  
+
   protected formatMessage(alert: Alert): string {
     throw new Error("Method not implemented.");
   }

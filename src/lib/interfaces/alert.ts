@@ -1,3 +1,6 @@
+import { Member } from "./member";
+import { MemberGroup } from "./memberGroup";
+
 export enum AlertType {
   DANGER,
   PARTY,
@@ -15,4 +18,5 @@ export interface Alert {
   message: string;
   type: AlertType;
   urgency: AlertUrgency;
+  target: Member|MemberGroup;
 }

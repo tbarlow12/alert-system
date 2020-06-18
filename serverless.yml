@@ -84,6 +84,28 @@ functions:
           methods:
             - GET
           authLevel: anonymous
+  
+  sendTwitterAlert:
+    handler: src/handlers/sendAlert
+    events:
+    - queue: twitter-alerts
+      name: alert
+  sendFacebookAlert:
+    handler: src/handlers/sendAlert
+    events:
+    - queue: twitter-alerts
+      name: alert
+  sendEmailAlert:
+    handler: src/handlers/sendAlert
+    events:
+    - queue: email-alerts
+      name: alert
+  sendSmsAlert:
+    handler: src/handlers/sendAlert
+    events:
+    - queue: sms-alerts
+      name: alert
+  
   # The following are a few examples of other events you can configure:
   # storageBlob:
   #   handler: src/handlers/storageBlob.printMessage
