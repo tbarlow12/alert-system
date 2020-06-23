@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: alert-system
+service: tabarlow-alert-system
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -21,12 +21,18 @@ provider:
   name: azure
   region: West US 2
   runtime: nodejs12
+  prefix: wuf
   # prefix: "sample"  # prefix of generated resource name
   # stage: dev
   # type: premium  # premium azure functions
 
   environment: # these will be created as application settings
     VARIABLE_FOO: 'foo'
+    TWITTER_MESSAGE_QUEUE_NAME: twitter-alerts
+    EMAIL_MESSAGE_QUEUE_NAME: email-alerts
+    SMS_MESSAGE_QUEUE_NAME: sms-alerts
+    FACEBOOK_MESSAGE_QUEUE_NAME: facebook-alerts
+    QUEUE_PROVIDER_TYPE: AZURE_STORAGE
 
   # you can define apim configuration here
   # apim:
@@ -59,12 +65,6 @@ provider:
 
 plugins: # look for additional plugins in the community plugins repo: https://github.com/serverless/plugins
   - serverless-azure-functions
-  - serverless-webpack
-
-custom:
-  webpack:
-    webpackConfig: ./webpack.config.js
-    includeModules: true
 
 functions:
   createAlert:
@@ -77,22 +77,22 @@ functions:
   sendTwitterAlert:
     handler: src/handlers/sendAlert
     events:
-    - queue: twitter-alerts
+    - queue: ${self:provider.environment.TWITTER_MESSAGE_QUEUE_NAME}
       name: alert
   sendFacebookAlert:
     handler: src/handlers/sendAlert
     events:
-    - queue: facebook-alerts
+    - queue: ${self:provider.environment.FACEBOOK_MESSAGE_QUEUE_NAME}
       name: alert
   sendEmailAlert:
     handler: src/handlers/sendAlert
     events:
-    - queue: email-alerts
+    - queue: ${self:provider.environment.EMAIL_MESSAGE_QUEUE_NAME}
       name: alert
   sendSmsAlert:
     handler: src/handlers/sendAlert
     events:
-    - queue: sms-alerts
+    - queue: ${self:provider.environment.SMS_MESSAGE_QUEUE_NAME}
       name: alert
   
   # The following are a few examples of other events you can configure:

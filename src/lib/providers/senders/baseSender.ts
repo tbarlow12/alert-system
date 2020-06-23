@@ -1,23 +1,18 @@
-import { Sender, Alert, MemberGroup, Member, Logger } from "../../models";
+import { Alert, Member, MemberGroup, Sender } from "../../models";
+import { BaseService } from "../baseService";
 
-export abstract class BaseSender implements Sender {
-
-  protected logger: Logger;
-
-  constructor(logger: Logger) {
-    this.logger = logger;
-  }
+export abstract class BaseSender extends BaseService implements Sender {
 
   public async sendAlert(alert: Alert) {
     const message = this.formatMessage(alert);
-    if ((alert.target as any).members) {
+    if ("members" in alert.target) {
       const group: MemberGroup = alert.target as MemberGroup;
-      this.logger.info(`Sending alert to group ${group.id} using sender ${this.constructor.name}`);
+      this.info(`Sending alert to group ${group.id} using sender ${this.constructor.name}`);
       const targets = group.members.map(member => this.getTarget(member));
       await this.sendGroupMessage(message, targets);
     } else {
       const member: Member = alert.target as Member;
-      this.logger.info(`Sending alert to member ${member.id} using sender ${this.constructor.name}`);
+      this.info(`Sending alert to member ${member.id} using sender ${this.constructor.name}`);
       await this.sendMessage(message, this.getTarget(member));
     }
   }

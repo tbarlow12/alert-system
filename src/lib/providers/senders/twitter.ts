@@ -8,14 +8,14 @@ export class TwitterSender extends BaseSender {
   }
   
   protected formatMessage(alert: Alert): string {
-    throw new Error("Method not implemented.");
+    return JSON.stringify(alert, null, 2);
   }
   
-  protected sendMessage(message: string, target: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  protected async sendMessage(message: string, target: string): Promise<void> {
+    this.info(`Sending Twitter message to ${target}. Body: ${message}`);
   }
   
-  protected sendGroupMessage(message: string, targets: string[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  protected async sendGroupMessage(message: string, targets: string[]): Promise<void> {
+    this.info(`Sending Twitter message to ${targets.join(",")}. Body: ${message}`);
   }
 }

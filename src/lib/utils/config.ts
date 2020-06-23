@@ -1,4 +1,5 @@
 import { AlertPlatform } from "../models/platform";
+import { QueueType } from "../models/queueType";
 
 export class Config {
   public static platformQueueName(platform: AlertPlatform) {
@@ -14,5 +15,9 @@ export class Config {
       default:
         throw new Error(`Unsupported queue platform: ${platform}`);
     }
+  }
+
+  public static queueType(): QueueType {
+    return QueueType[process.env.QUEUE_PROVIDER]
   }
 }

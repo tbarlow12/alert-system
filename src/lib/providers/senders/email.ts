@@ -8,14 +8,14 @@ export class EmailSender extends BaseSender {
   }
   
   protected formatMessage(alert: Alert): string {
-    throw new Error("Method not implemented.");
+    return JSON.stringify(alert, null, 2);
   }
   
-  protected sendMessage(message: string, emailAddress: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  protected async sendMessage(message: string, emailAddress: string): Promise<void> {
+    this.info(`Sending email to ${emailAddress}. Body: ${message}`);
   }
   
-  protected sendGroupMessage(message: string, targets: string[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  protected async sendGroupMessage(message: string, emailAddresses: string[]): Promise<void> {
+    this.info(`Sending email to ${emailAddresses.join(",")}. Body: ${message}`);
   }
 }

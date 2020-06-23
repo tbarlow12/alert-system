@@ -1,15 +1,18 @@
 import { AzureFunction, Context } from "@azure/functions";
-import { IocContainer, Sender, Logger } from "../models";
-import { AzureFunctionsLogger, CompoundLogger, ConsoleLogger } from "../providers/loggers";
-import { EmailSender, FacebookSender, SmsSender, TwitterSender } from "../providers/senders";
-import { Factory } from "./factory";
-import { constants } from "../utils";
+import { Logger, ServiceCollection } from "../../models";
+import { QueueType } from "../../models/queueType";
+import { constants } from "../../utils";
+import { AzureFunctionsLogger, CompoundLogger, ConsoleLogger } from "../loggers";
+import { AzureStorageQueueProvider } from "../queue/azureStorageQueue";
+import { EmailSender, FacebookSender, SmsSender, TwitterSender } from "../senders";
+import { QueueProviderFactory } from "./queueProviderFactory";
+import { SenderFactory } from "./senderFactory";
 
 export class HandlerFactory {
 
-  public static create<T>(handler: (context: Context, trigger: T, container: IocContainer) => Promise<void>): AzureFunction {
+  public static create<T>(handler: (context: Context, trigger: T, container: ServiceCollection) => Promise<void>): AzureFunction {
     return async (context: Context, trigger: T) => {
-      const container = this.createIocContainer(context);
+      const container = this.createServiceCollection(context);
       const { logger } = container;
       logger.info(`Executing function ${context.executionContext.functionName}`);
       try {
@@ -20,14 +23,22 @@ export class HandlerFactory {
     }
   }
 
-  private static createIocContainer(context: Context): IocContainer {
+  private static createServiceCollection(context: Context): ServiceCollection {
     const logger = this.createCompoundLogger(context);
     const { functionName } = context.executionContext;
     const senderFactory = this.initializeSenderFactory(logger);
+    const queueProviderFactory = this.initializeQueueProviderFactory(logger);
     return {
       logger,
       sender: (senderFactory.has(functionName)) ? senderFactory.get(functionName) : undefined,
+      queueProviderFactory,
     }
+  }
+
+  private static initializeQueueProviderFactory(logger: Logger): QueueProviderFactory {
+    const queueProviderFactory = new QueueProviderFactory();
+    queueProviderFactory.register(QueueType.AZURE_STORAGE, new AzureStorageQueueProvider(logger));
+    return queueProviderFactory;
   }
 
   private static createCompoundLogger(context: Context): Logger {
@@ -37,8 +48,8 @@ export class HandlerFactory {
     ]);
   }
 
-  private static initializeSenderFactory(logger: Logger): Factory<Sender> {
-    const senderFactory = new Factory<Sender>();
+  private static initializeSenderFactory(logger: Logger): SenderFactory {
+    const senderFactory = new SenderFactory();
     const {
       sendEmailAlert,
       sendFacebookAlert,

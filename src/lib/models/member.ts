@@ -1,9 +1,8 @@
 export interface Member {
-  id: string;
+  id: number;
   fullName: string;
   email: string;
   phone: string;
   facebook: string;
   twitter: string;
-  wuphf: string;
 }
