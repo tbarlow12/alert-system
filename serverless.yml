@@ -68,36 +68,36 @@ plugins: # look for additional plugins in the community plugins repo: https://gi
 
 functions:
   createAlert:
-    handler: src/handlers/createAlert
+    handler: handlers/createAlert
     events:
     - http: true
       methods:
         - POST
       authLevel: anonymous # can also be `function` or `admin`  
   sendTwitterAlert:
-    handler: src/handlers/sendAlert
+    handler: handlers/sendAlert
     events:
     - queue: ${self:provider.environment.TWITTER_MESSAGE_QUEUE_NAME}
       name: alert
   sendFacebookAlert:
-    handler: src/handlers/sendAlert
+    handler: handlers/sendAlert
     events:
     - queue: ${self:provider.environment.FACEBOOK_MESSAGE_QUEUE_NAME}
       name: alert
   sendEmailAlert:
-    handler: src/handlers/sendAlert
+    handler: handlers/sendAlert
     events:
     - queue: ${self:provider.environment.EMAIL_MESSAGE_QUEUE_NAME}
       name: alert
   sendSmsAlert:
-    handler: src/handlers/sendAlert
+    handler: handlers/sendAlert
     events:
     - queue: ${self:provider.environment.SMS_MESSAGE_QUEUE_NAME}
       name: alert
   
   # The following are a few examples of other events you can configure:
   # storageBlob:
-  #   handler: src/handlers/storageBlob.printMessage
+  #   handler: handlers/storageBlob.printMessage
   #   events:
   #     - blob:
   #       x-azure-settings:
@@ -105,20 +105,20 @@ functions:
   #         path: blob-sample/{blobName}
   #         connection: AzureWebJobsStorage # App Setting/environment variable which contains Storage Account Connection String
   # storageQueue:
-  #   handler: src/handlers/storageQueue.printMessage
+  #   handler: handlers/storageQueue.printMessage
   #   events:
   #     - queue: queue-sample
   #       x-azure-settings:
   #         name: message # Specifies which naem is available on `context`
   #         connection: AzureWebJobsStorage
   # timer:
-  #   handler: src/handlers/timer.printMessage
+  #   handler: handlers/timer.printMessage
   #   events:
   #     - timer:
   #       x-azure-settings:
   #         schedule: '*/10 * * * * *'
   # eventhub:
-  #   handler: src/handlers/eventHub.printMessage
+  #   handler: handlers/eventHub.printMessage
   #   events:
   #     - eventHub:
   #       x-azure-settings:
@@ -127,7 +127,7 @@ functions:
   #         consumerGroup: $Default # Specifies the consumerGroup to listen with
   #         connection: EVENT_HUBS_CONNECTION # App Setting/environment variable which contains Event Hubs Namespace Connection String
   # serviceBusQueue:
-  #   handler: src/handlers/serviceBusQueue.printMessage
+  #   handler: handlers/serviceBusQueue.printMessage
   #   events:
   #     - serviceBus:
   #       x-azure-settings:
@@ -135,7 +135,7 @@ functions:
   #         queueName: sample-queue # Name of the service bus queue to consume
   #         connection: SERVICE_BUS_CONNECTION # App Setting/environment variable variable which contains Service Bus Namespace Connection String
   # serviceBusTopic:
-  #   handler: src/handlers/serviceBusTopic.printMessage
+  #   handler: handlers/serviceBusTopic.printMessage
   #   events:
   #     - serviceBus:
   #       x-azure-settings:

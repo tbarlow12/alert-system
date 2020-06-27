@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
-import { Alert, AlertRequest, allPlatforms, ServiceCollection } from '../lib/models';
-import { HandlerFactory } from '../lib/providers/factories';
-import { Config } from '../lib/utils';
+import { Alert, AlertRequest, allPlatforms, ServiceCollection } from '../models';
+import { HandlerFactory } from '../providers/factories';
+import { Config } from '../utils';
 
 export const run: AzureFunction = HandlerFactory.create<HttpRequest>(
   async (_context: Context, req: HttpRequest, serviceCollection: ServiceCollection) => {
