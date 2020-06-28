@@ -1,4 +1,4 @@
-import { Alert, Logger, Member } from "../../models";
+import { Alert, Member } from "../../models";
 import { BaseSender } from "./baseSender";
 
 export class SmsSender extends BaseSender {

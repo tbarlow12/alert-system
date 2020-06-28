@@ -1,13 +1,11 @@
-import { Logger, Storage } from "../models";
+import { Logger } from "../models";
 
 export class BaseService {
 
   protected logger: Logger;
-  protected storage: Storage;
 
-  constructor(logger: Logger, storage: Storage) {
+  constructor(logger: Logger) {
     this.logger = logger;
-    this.storage = storage;
   }
 
   protected log(message: string) {

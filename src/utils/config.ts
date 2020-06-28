@@ -2,6 +2,7 @@ import { AlertPlatform } from "../models/platform";
 import { QueueType } from "../models/queueType";
 
 export class Config {
+  
   public static platformQueueName(platform: AlertPlatform) {
     switch (platform) {
       case AlertPlatform.TWITTER:

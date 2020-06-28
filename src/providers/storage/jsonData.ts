@@ -1,5 +1,5 @@
-import { Storage, MemberGroup, Member } from "../../models";
-import { groupCollapsed } from "console";
+import { Member, MemberGroup, Storage } from "../../models";
+import { BaseService } from "../baseService";
 
 const memberGroups: MemberGroup[] = [
   {
@@ -181,7 +181,7 @@ const members: Member[] = [
   }
 ]
 
-export class JsonDataStorageProvider implements Storage {
+export class JsonDataStorageProvider extends BaseService implements Storage {
   
   public async getMembers(): Promise<Member[]> {
     return members;

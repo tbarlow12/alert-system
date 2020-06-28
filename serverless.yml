@@ -68,29 +68,29 @@ plugins: # look for additional plugins in the community plugins repo: https://gi
 
 functions:
   createAlert:
-    handler: handlers/createAlert
+    handler: dist/handlers/createAlert
     events:
     - http: true
       methods:
         - POST
       authLevel: anonymous # can also be `function` or `admin`  
   sendTwitterAlert:
-    handler: handlers/sendAlert
+    handler: dist/handlers/sendAlert
     events:
     - queue: ${self:provider.environment.TWITTER_MESSAGE_QUEUE_NAME}
       name: alert
   sendFacebookAlert:
-    handler: handlers/sendAlert
+    handler: dist/handlers/sendAlert
     events:
     - queue: ${self:provider.environment.FACEBOOK_MESSAGE_QUEUE_NAME}
       name: alert
   sendEmailAlert:
-    handler: handlers/sendAlert
+    handler: dist/handlers/sendAlert
     events:
     - queue: ${self:provider.environment.EMAIL_MESSAGE_QUEUE_NAME}
       name: alert
   sendSmsAlert:
-    handler: handlers/sendAlert
+    handler: dist/handlers/sendAlert
     events:
     - queue: ${self:provider.environment.SMS_MESSAGE_QUEUE_NAME}
       name: alert

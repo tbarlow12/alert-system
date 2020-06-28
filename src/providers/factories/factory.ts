@@ -1,4 +1,4 @@
-export abstract class Factory<T> {
+export class Factory<T> {
   
   private providers: { [key: string]: T }
 

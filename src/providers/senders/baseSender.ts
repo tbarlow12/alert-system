@@ -1,7 +1,14 @@
-import { Alert, Member, MemberGroup, Sender } from "../../models";
+import { Alert, Member, MemberGroup, Sender, Logger, Storage } from "../../models";
 import { BaseService } from "../baseService";
 
 export abstract class BaseSender extends BaseService implements Sender {
+
+  protected storage: Storage;
+
+  constructor(logger: Logger, storage: Storage) {
+    super(logger);
+    this.storage = storage;
+  }
 
   public async sendAlert(alert: Alert) {
     const message = this.formatMessage(alert);

@@ -4,7 +4,10 @@
   "description": "Azure Functions webpack sample for the Serverless framework using Typescript",
   "scripts": {
     "test": "echo \"No tests yet...\"",
-    "start": "sls offline"
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "sls offline",
+    "clean": "sls offline cleanup && rm -rf dist"
   },
   "keywords": [
     "azure",

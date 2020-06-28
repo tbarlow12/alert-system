@@ -1,9 +1,12 @@
 import { Logger } from "./logger";
 import { Sender } from "./sender";
-import { QueueProviderFactory } from "../providers/factories/queueProviderFactory";
+import { Storage } from "./storage";
+import { Factory } from "../providers/factories";
+import { QueueProvider } from "./queueProvider";
 
 export interface ServiceCollection {
   logger: Logger;
+  storage?: Storage;
   sender?: Sender;
-  queueProviderFactory?: QueueProviderFactory
+  queueProviderFactory?: Factory<QueueProvider>
 }
